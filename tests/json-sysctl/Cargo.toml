@@ -1,0 +1,26 @@
+[package]
+name = "json-sysctl"
+version = "0.1.0"
+authors = ["Alex Gaynor <alex.gaynor@gmail.com", "Geoffrey Thomas <geofft@ldpreload.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+linux-kernel-module = { path = "../.." }
+serde = { version = "*", default-features = false , features = ["derive"] }
+serde-json-core = { git = "https://github.com/japaric/serde-json-core" }
+typenum = "*"
+
+[patch.crates-io]
+# You'll need a locally patched version of the byteorder crate that
+# disables the `std` feature:
+#   git clone https://github.com/burntsushi/byteorder
+#   sed -i 's/"std"//' Cargo.toml
+# Then uncomment the line below, pointing to your patched byteorder.
+# This is because the build script indirectly depends on byteorder with
+# all features, so even though our runtime dependency serde-json-core
+# indirectly depends on byteorder without default features, Cargo
+# confuses the two. See https://github.com/rust-lang/cargo/issues/5730
+#byteorder = { path = "/root/byteorder" }
