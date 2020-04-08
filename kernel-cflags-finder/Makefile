@@ -1,7 +1,8 @@
 ifneq ($(KERNELRELEASE),)
 obj-m += dummy.o
 clean-files := dummy.c
-ccflags-y += -Wno-unknown-warning-option
+#ccflags-y += -Wno-unknown-warning-option
+#ccflags-n += -Werror=unknown-warning-option
 
 # Some systems for installing kernel headers (e.g. Debian's) happen to
 # trigger the out-of-tree build code because the kernel headers directly
@@ -17,12 +18,30 @@ ccflags-y += -Wno-unknown-warning-option
 # relative, we make them absolute with respect to CURDIR. (Unlike the
 # upstream addtree function, we prefix -I./foo. We also need to fix
 # -include ./include/linux/kconfig.h)
+#@echo $(NOSTDINC_FLAGS) $(call our_flags,LINUXINCLUDE) $(or $(__c_flags),$(_c_flags)) $(modkern_cflags)
+# @echo $(NOSTDINC_FLAGS) $(call our_flags,LINUXINCLUDE) $(filter-out -Wno-unused-but-set-variable, $(or $(__c_flags),$(_c_flags))) $(filter-out -Wno-unused-but-set-variable,$(modkern_cflags))
+#
+#
+#
+	#@echo $(NOSTDINC_FLAGS) 
+	#@echo $(NOSTDINC_FLAGS) 
+	#@echo $(call our_flags,LINUXINCLUDE) 
+	#@echo $(call our_flags,LINUXINCLUDE) 
+	#@echo $(filter-out -Werror=unknown-warning-option, $(or $(__c_flags),$(_c_flags))) 
+	#@echo $(filter-out -Wno-unused-but-set-variable, $(or $(__c_flags),$(_c_flags))) 
+	#@echo $(filter-out -Wno-unused-but-set-variable,$(modkern_cflags))
+	#@echo $(filter-out -Wno-unused-but-set-variable,$(modkern_cflags))
+
+	#@echo $(NOSTDINC_FLAGS) 
+	#@echo $(call our_flags,LINUXINCLUDE) 
+	#@echo $(or $(__c_flags),$(_c_flags))
+	#@echo $(modkern_cflags)
+
 our_addtree = $(if $(patsubst -I%,%,$(1)), \
 $(if $(filter-out -I/% -I../%,$(1)),$(patsubst ./%,$(CURDIR)/%,$(patsubst -I%,-I$(CURDIR)/%,$(1))),$(1)),$(1))
-our_flags = $(foreach o,$($(1)),$(call our_addtree,$(o)))
-
+our_flags = $(filter-out -Wno-unused-but-set-variable, $(foreach o,$($(1)),$(call our_addtree,$(o))))
 $(M)/dummy.c:
-	@echo $(NOSTDINC_FLAGS) $(call our_flags,LINUXINCLUDE) $(or $(__c_flags),$(_c_flags)) $(modkern_cflags)
+	@echo $(NOSTDINC_FLAGS) $(call our_flags,LINUXINCLUDE) $(filter-out -Werror=unknown-warning-option, $(or $(__c_flags),$(_c_flags))) $(filter-out -Wno-unused-but-set-variable,$(modkern_cflags))
 	@touch $@
 
 .PHONY: $(M)/dummy.c
