@@ -190,14 +190,14 @@ impl<T> FileOperationsVtableBuilder<T> {
 
 impl<T: Read> FileOperationsVtableBuilder<T> {
     pub const fn read(mut self) -> FileOperationsVtableBuilder<T> {
-        self.0.read = Some(read_callback::<T>);
+        //self.0.read = Some(read_callback::<T>);
         self
     }
 }
 
 impl<T: Write> FileOperationsVtableBuilder<T> {
     pub const fn write(mut self) -> FileOperationsVtableBuilder<T> {
-        self.0.write = Some(write_callback::<T>);
+        //self.0.write = Some(write_callback::<T>);
         self
     }
 }

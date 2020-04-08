@@ -133,7 +133,7 @@ impl<T: SysctlStorage> Sysctl<T> {
                 procname: name.as_ptr() as *const i8,
                 mode: mode.as_int(),
                 data: &*storage as *const T as *mut c_types::c_void,
-                proc_handler: Some(proc_handler::<T>),
+                proc_handler: None,//Some(proc_handler::<T>),
 
                 maxlen: 0,
                 child: ptr::null_mut(),
