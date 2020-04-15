@@ -1,6 +1,8 @@
 .built-in.o.cmd
 .dummy.ko.cmd
 .dummy.mod.o.cmd
+.dummy.mod.cmd
+dummy.mod
 .dummy.o.cmd
 .tmp_versions/
 Module.symvers

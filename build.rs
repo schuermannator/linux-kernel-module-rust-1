@@ -163,6 +163,7 @@ fn main() {
     for t in OPAQUE_TYPES {
         builder = builder.opaque_type(t);
     }
+    builder = builder.clang_arg("-DKBUILD_MODNAME=\"wgrs\"");
     let bindings = builder.generate().expect("Unable to generate bindings");
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());

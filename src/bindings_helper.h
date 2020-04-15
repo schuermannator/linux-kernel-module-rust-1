@@ -5,6 +5,8 @@
 #include <linux/slab.h>
 #include <linux/uaccess.h>
 #include <linux/version.h>
+#include <linux/netdevice.h>
+#include <net/ip_tunnels.h>
 
 // Bindgen gets confused at certain things
 //
