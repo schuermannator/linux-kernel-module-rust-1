@@ -7,6 +7,10 @@
 #include <linux/version.h>
 #include <linux/netdevice.h>
 #include <net/ip_tunnels.h>
+#include <linux/skbuff.h>
+#include <linux/inet.h>
+#include <linux/ip.h>
+#include <linux/inetdevice.h>
 
 // Bindgen gets confused at certain things
 //
