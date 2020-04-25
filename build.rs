@@ -29,6 +29,11 @@ const INCLUDED_FUNCTIONS: &[&str] = &[
     "get_random_bytes",
     "rng_is_initialized",
     "spin_lock",
+    "ip_tunnel_get_stats64",
+    "netdev_priv",
+    "__in_dev_get_rtnl",
+    "consume_skb",
+    "alloc_netdev_mqs"
 ];
 const INCLUDED_VARS: &[&str] = &[
     "EINVAL",
@@ -49,6 +54,7 @@ const INCLUDED_VARS: &[&str] = &[
     "SEEK_SET",
     "SEEK_CUR",
     "SEEK_END",
+    "NET_NAME_ENUM",
 ];
 const OPAQUE_TYPES: &[&str] = &[
     // These need to be opaque because they're both packed and aligned, which rustc
@@ -164,6 +170,8 @@ fn main() {
     for t in OPAQUE_TYPES {
         builder = builder.opaque_type(t);
     }
+    // https://github.com/iovisor/bpftrace/pull/716/files
+    builder = builder.clang_arg("-DKBUILD_MODNAME=\"wgrs\"");
     let bindings = builder.generate().expect("Unable to generate bindings");
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());

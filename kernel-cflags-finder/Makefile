@@ -2,6 +2,7 @@ ifneq ($(KERNELRELEASE),)
 obj-m += dummy.o
 clean-files := dummy.c
 ccflags-y += -Wno-unknown-warning-option
+# ccflags-y += -DKBUILD_MODNAME='wgrs'
 
 # Some systems for installing kernel headers (e.g. Debian's) happen to
 # trigger the out-of-tree build code because the kernel headers directly
