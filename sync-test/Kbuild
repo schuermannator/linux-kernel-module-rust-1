@@ -1,12 +1,36 @@
-obj-m := helloworld.o
-helloworld-objs := sync_test.rust.o
+# Uncomment following to extract directly from Cargo.toml, note that it *should*
+# be an exhaustive match with only one possible result according to Cargo.toml
+# specification (name must be alphanumeric only, may only be white space
+# separated from =), but has not been tested aginst every possible Cargo.toml
+libname := $(shell grep '^\s*name\s*=' $(src)/Cargo.toml | sed 's/[^*]*"\([^"]*\)".*/\1/;s/-/_/')
+#libname := sync_test
 
-libname := sync_test
+obj-m := $(libname).o
+$(libname)-objs := $(libname).rust.o
+
+cargotarget := x86_64-linux-kernel
+
+cargoflags := -Z build-std=core,alloc --target=$(cargotarget)
+
+CARRELEASE := 0
+
+ifeq ($(CARRELEASE), 0)
+	targdir := debug
+else
+	cargoflags += --release
+	targdir := release
+endif
+
+outdir := target/$(cargotarget)/$(targdir)
 
 CARGO ?= cargo
 
-$(src)/target/x86_64-linux-kernel/debug/lib$(libname).a: $(src)/Cargo.toml $(wildcard $(src)/src/*.rs)
-	cd $(src); env -u MAKE -u MAKEFLAGS $(CARGO) build -Z build-std=core,alloc --target=x86_64-linux-kernel
+# Should be able to support more complicated source file topologies with
+# $(shell find $(src) -type f -name '*.rs') instead of the wildcard thing
+rustdeps := $(src)/Cargo.toml $(wildcard $(src)/src/*.rs)
 
-%.rust.o: target/x86_64-linux-kernel/debug/lib%.a
+$(src)/$(outdir)/lib$(libname).a: $(rustdeps)
+	cd $(src); env -u MAKE -u MAKEFLAGS $(CARGO) build $(cargoflags)
+
+$(obj)/%.rust.o: $(src)/$(outdir)/lib%.a
 	$(LD) -r -o $@ --whole-archive $<
