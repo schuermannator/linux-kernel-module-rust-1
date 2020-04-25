@@ -3,10 +3,13 @@
 Cargo.lock
 .cache.mk
 .*o.cmd
+.*.cmd
 .tmp_versions/
 Module.symvers
 *.ko
 *.mod.c
+*.mod
 *.o
+*.a
 modules.order
 dummy.c

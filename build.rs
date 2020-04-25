@@ -7,7 +7,7 @@ use std::path::PathBuf;
 use std::process::Command;
 use std::{env, fs};
 
-const INCLUDED_TYPES: &[&str] = &["file_system_type", "mode_t", "umode_t", "ctl_table"];
+const INCLUDED_TYPES: &[&str] = &["file_system_type", "mode_t", "umode_t", "ctl_table", "spinlock_t", "mutex"];
 const INCLUDED_FUNCTIONS: &[&str] = &[
     "cdev_add",
     "cdev_init",
@@ -28,6 +28,7 @@ const INCLUDED_FUNCTIONS: &[&str] = &[
     "wait_for_random_bytes",
     "get_random_bytes",
     "rng_is_initialized",
+    "spin_lock",
     "ip_tunnel_get_stats64",
     "netdev_priv",
     "__in_dev_get_rtnl",

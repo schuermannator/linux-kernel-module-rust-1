@@ -1,0 +1,12 @@
+[package]
+name = "sync-test"
+version = "0.1.0"
+authors = ["Ultimatespirit <ultimatespirit@users.noreply.github.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+linux-kernel-module = { path = ".." }
+lazy_static = { version = "0.2.11", features = ["spin_no_std"] }

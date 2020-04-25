@@ -18,6 +18,9 @@ pub mod sysctl;
 mod types;
 pub mod user_ptr;
 
+// Customa ddition for locks
+pub mod sync;
+
 pub use crate::error::{Error, KernelResult};
 pub use crate::types::{CStr, Mode};
 
