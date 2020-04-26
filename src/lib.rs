@@ -78,6 +78,7 @@ macro_rules! kernel_module {
     (@attribute $name:ident, $value:expr) => {
         #[link_section = ".modinfo"]
         #[allow(non_upper_case_globals)]
+        #[used]
         // TODO: Generate a name the same way the kernel's `__MODULE_INFO` does.
         // TODO: This needs to be a `[u8; _]`, since the kernel defines this as a  `const char []`.
         // See https://github.com/rust-lang/rfcs/pull/2545
